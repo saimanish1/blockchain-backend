@@ -5,6 +5,7 @@
   "license": "MIT",
   "dependencies": {
     "body-parser": "^1.19.0",
+    "elliptic": "^6.5.1",
     "express": "^4.17.1",
     "hex-to-binary": "^1.0.1",
     "redis": "^2.8.0",
@@ -20,5 +21,8 @@
     "start": "nodemon index.js",
     "test": "jest --watchAll",
     "dev-peer": "cross-env GENERATE_PEER_PORT='true' nodemon index.js"
+  },
+  "jest": {
+    "testEnvironment": "node"
   }
 }

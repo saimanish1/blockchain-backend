@@ -14,7 +14,9 @@ class PubSub {
     this.publisher = redis.createClient();
     this.subscriber = redis.createClient();
     this.subscribeToChannels();
-    this.subscriber.on('message', (channel, message) => this.handleMessage(channel, message));
+    this.subscriber.on('message', (channel, message) =>
+      this.handleMessage(channel, message)
+    );
   }
 
   handleMessage(channel, message) {
@@ -22,7 +24,11 @@ class PubSub {
     const parsedMessage = JSON.parse(message);
     switch (channel) {
       case CHANNELS.BLOCKCHAIN: {
-        this.blockchain.replaceChain(parsedMessage);
+        this.blockchain.replaceChain(parsedMessage, () => {
+          this.transactionPool.clearBlockchainTransactions({
+            chain: parsedMessage
+          });
+        });
         break;
       }
       case CHANNELS.TRANSACTION: {
